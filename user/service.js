@@ -1,16 +1,10 @@
-const {User, userInfo} = require('../db/models')
+const {User} = require('../db/models')
 
 const getUsersService = async () => {
     try {
         const data = await User.findAll({
             order: [["id", "ASC"]],
-            attributes: ["email", "password"],
-            include: [
-                {
-                    model: userInfo,
-                    attributes: ["name", "fullName", "Age"],
-                },
-            ],
+            attributes: ["name","fullName","Age","email", "password"]
         });
         return data;
     } catch (err) {
@@ -22,13 +16,7 @@ const getUserByIdService = async (id) => {
     try {
         const data = await User.findOne({
             where: { id },
-            attributes: ["email", "password"],
-            include: [
-                {
-                    model: userInfo,
-                    attributes: ["name", "fullName", "Age"],
-                },
-            ],
+            attributes: ["name","fullName","Age","email", "password"]
         });
         return data;
     } catch (err) {
