@@ -12,6 +12,7 @@ const userController = new UserController();
 
 router.post('/users/register', async (req, res)=> await userController.registerUser(req, res))
 router.post('/users/login',jwt({
+    algorithms: ["HS256"],
     secret:secret
 }), async (req, res)=> await userController.loginUser(req,res))
 router.get('/users/list', async (req, res)=> await userController.getUsers(req, res))

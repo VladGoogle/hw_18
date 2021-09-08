@@ -4,7 +4,7 @@ import {User, UserObj} from '../db/models/user'
 
 export class UserDao {
 
-    public async getUsers(): Promise<User[] | null> {
+    public async getUsers(): Promise<User[]> {
 
         const data = await User.findAll({
             order: [["id", "ASC"]],
@@ -40,16 +40,28 @@ export class UserDao {
     public async updateUser(id: number, user:UserObj): Promise<User> {
 
         const userObj = await this.getUserById(id)
-        const data = await userObj.update({user});
+        if(userObj === null)
+        {
+            throw "User does not exist"
+        }
+        else {
+            const data = await userObj.update({user});
+            return data;
+        }
 
-        return data;
     };
 
     public async deleteUser(id: number): Promise<void> {
         const userObj = await this.getUserById(id)
-        const data = await userObj.destroy();
-
-        return data;
+        if(userObj === null)
+        {
+            throw "User does not exist"
+            return
+        }
+        else {
+            const data = await userObj.destroy();
+            return data;
+        }
     }
 }
 

@@ -3,11 +3,12 @@ import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import {secret} from '../server'
 
+
 export class UserController
 {
-    private UserService:UserService;
+    private UserService = new UserService();
 
-    public async getUsers(req, res){
+    public async getUsers(req:any, res:any){
         try {
             const data = await this.UserService.getUsers();
             res.send = {success: true, data};
@@ -18,7 +19,7 @@ export class UserController
         }
     };
 
-    public async getUserById(req, res){
+    public async getUserById(req:any,res:any){
         try {
             const id = req.params.id;
             const data = await this.UserService.getUserById(id);
@@ -30,7 +31,7 @@ export class UserController
         }
     };
 
-    public async registerUser(req, res){
+    public async registerUser(req:any,res:any){
         try {
             const user = req.body;
             const data = await this.UserService.registerUser(user);
@@ -42,7 +43,7 @@ export class UserController
         }
     };
 
-    public async updateUser (req, res){
+    public async updateUser (req:any,res:any){
         try {
             const id = req.params.id
             const user = req.body;
@@ -55,7 +56,7 @@ export class UserController
         }
     };
 
-   public async deleteUser(req, res){
+   public async deleteUser(req:any,res:any){
         try {
             const id = req.params.id
             await this.UserService.deleteUser(id);
@@ -67,23 +68,30 @@ export class UserController
         }
     };
 
-    public async loginUser(req,res)
+    public async loginUser(req:any,res:any)
     {
         const user = req.body;
         const userObj = await this.UserService.getUserByEmail(user.email);
-        const {email, password, ...userInfo}=userObj;
-        if(await bcrypt.compare(user.password, userObj.password))
+        if(userObj === null)
         {
-            res.body={
-                token: jsonwebtoken.sign({
-                    subject:userInfo,
-                    data: {
-                        user_id: userInfo.id
-                    },
-                    exp:Math.floor(Date.now()/1000)+ (60*60),
-                }, secret)
-            };
+            throw "User does not exist"
         }
+        else {
+            const {email, password, ...userInfo}=userObj;
+            if(await bcrypt.compare(user.password, userObj.password))
+            {
+                res.body={
+                    token: jsonwebtoken.sign({
+                        subject:userInfo,
+                        data: {
+                            user_id: userInfo.id
+                        },
+                        exp:Math.floor(Date.now()/1000)+ (60*60),
+                    }, secret as string)
+                };
+            }
+        }
+
     }
 
 }

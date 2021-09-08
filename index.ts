@@ -8,7 +8,7 @@ dotenv.config({ path: __dirname+'/.env' });
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
-app.use(router.routes()).use(router.allowedMethods());
+app.use(router.route);
 
 app.listen(process.env.SERVER_PORT, () => {
     console.log('server is listening on port ', process.env.SERVER_PORT);

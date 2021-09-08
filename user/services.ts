@@ -3,7 +3,7 @@ import {UserObj} from '../db/models/user'
 import bcrypt from 'bcrypt'
 
 export class UserService{
-    private UserDao:UserDao;
+    private UserDao = new UserDao();
 
     public async getUsers(){
         return await this.UserDao.getUsers();
