@@ -13,7 +13,6 @@ export class User extends Model {
 }
 
 export interface UserObj{
-    id:number,
     name:string,
     fullName:string,
     Age:number,

@@ -3,30 +3,30 @@ import {UserObj} from '../db/models/user'
 import bcrypt from 'bcrypt'
 
 export class UserService{
-    private UserDao = new UserDao();
+    private userDao = new UserDao();
 
     public async getUsers(){
-        return await this.UserDao.getUsers();
+        return await this.userDao.getUsers();
     }
 
     public async getUserById(id:number){
-        return await this.UserDao.getUserById(id);
+        return await this.userDao.getUserById(id);
     }
 
     public async getUserByEmail(email:string){
-        return await this.UserDao.getUserByEmail(email);
+        return await this.userDao.getUserByEmail(email);
     }
 
     public async registerUser(user:UserObj){
         user.password = await bcrypt.hash(user.password ,10)
-        return await this.UserDao.registerUser(user);
+        return await this.userDao.registerUser(user);
     }
 
     public async updateUser(id:number, user:UserObj){
-        return await this.UserDao.updateUser(id, user);
+        return await this.userDao.updateUser(id, user);
     }
 
     public async deleteUser(id:number){
-        return await this.UserDao.deleteUser(id);
+        return await this.userDao.deleteUser(id);
     }
 }
