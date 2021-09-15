@@ -1,4 +1,5 @@
 import {User, UserObj} from '../db/models/user'
+import fetch from 'node-fetch';
 
 
 
@@ -16,7 +17,7 @@ export class UserDao {
     public async getUserById(id:number): Promise<User | null> {
 
         const data = await User.findOne({
-            where: {id},
+            where: {id: id},
             attributes: ["name", "fullName", "Age", "email", "password"]
         })
         return data;
@@ -25,7 +26,7 @@ export class UserDao {
     public async getUserByEmail(email:string): Promise<User | null> {
 
         const data = await User.findOne({
-            where: {email},
+            where: {email: email},
             attributes: ["id","name", "fullName", "Age", "password"]
         })
         return data;
@@ -33,7 +34,13 @@ export class UserDao {
 
     public async registerUser(user:UserObj): Promise<User | null> {
 
-        const data = await User.create({user});
+        const data = await User.create({
+            name:user.name,
+            fullName: user.fullName,
+            Age: user.Age,
+            email: user.email,
+            password: user.password
+        });
         return data;
     };
 
@@ -45,7 +52,13 @@ export class UserDao {
             throw "User does not exist"
         }
         else {
-            const data = await userObj.update({user});
+            const data = await userObj.update({
+                name:user.name,
+                fullName: user.fullName,
+                Age: user.Age,
+                email: user.email,
+                password: user.password
+            });
             return data;
         }
 

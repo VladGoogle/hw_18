@@ -11,11 +11,11 @@ export class UserController
     public async getUsers(req:any, res:any){
         try {
             const data = await this.UserService.getUsers();
-            res.send = {success: true, data};
-            res.status = 200;
+            res.send({success: true, data});
+            res.status(200)
         } catch (error) {
-            res.send = {success: false, error};
-            res.status = 400;
+            res.send({success: false, error} );
+            res.status(400)
         }
     };
 
@@ -23,11 +23,11 @@ export class UserController
         try {
             const id = req.params.id;
             const data = await this.UserService.getUserById(id);
-            res.send = {success: true, data};
-            res.status = 200;
+            res.send({success: true, data});
+            res.status(200);
         } catch (error) {
-            res.send = {success: false, error};
-            res.status = 400;
+            res.send({success: false, error});
+            res.status(400);
         }
     };
 
@@ -35,11 +35,12 @@ export class UserController
         try {
             const user = req.body;
             const data = await this.UserService.registerUser(user);
-            res.send = {success: true, data};
-            res.status = 200;
+            res.send({success: true, data});
+            console.log(data)
+            res.status(200);
         } catch (error) {
-            res.send = {success: false, error};
-            res.status = 400;
+            res.send({success: false, error});
+            res.status(400);
         }
     };
 
@@ -48,11 +49,11 @@ export class UserController
             const id = req.params.id
             const user = req.body;
             const data = await this.UserService.updateUser(id, user);
-            res.send = {success: true, data};
-            res.status = 200;
+            res.send({success: true, data});
+            res.status(200);
         } catch (error) {
-            res.send = {success: false, error};
-            res.status = 400;
+            res.send({success: false, error});
+            res.status(400);
         }
     };
 
@@ -60,11 +61,11 @@ export class UserController
         try {
             const id = req.params.id
             await this.UserService.deleteUser(id);
-            res.send = {success: true, data: {message: "Deleted"}};
-            res.status = 200;
+            res.send({success: true, data: {message: "Deleted"}});
+            res.status(200);
         } catch (error) {
-            res.send = {success: false, error};
-            res.status = 400;
+            res.send({success: false, error});
+            res.status(400);
         }
     };
 
@@ -75,21 +76,23 @@ export class UserController
         if(userObj === null)
         {
             throw "User does not exist"
+            res.status(400);
         }
         else {
             const {email, password, ...userInfo}=userObj;
             if(await bcrypt.compare(user.password, userObj.password))
             {
-                res.body={
+                res.body({
                     token: jsonwebtoken.sign({
                         subject:userInfo,
                         data: {
                             user_id: userInfo.id
                         },
                         exp:Math.floor(Date.now()/1000)+ (60*60),
-                    }, secret as string)
-                };
+                    }, secret)
+                });
             }
+            res.status(200);
         }
 
     }

@@ -3,10 +3,18 @@
     "target": "es6",
     "allowJs": true,
     "module": "commonjs",
-    "exclude": ["node_modules", "prod_modules"],
+    "rootDirs": [
+      "user",
+      "db",
+      "db/models",
+      "./",
+      "tests"
+    ],
+    "outDir": "./build",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": ["node_modules", "prod_modules"]
 }
