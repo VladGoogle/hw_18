@@ -34,7 +34,7 @@ export class UserController
     public async registerUser(req:any,res:any){
         try {
             const user = req.body;
-            const data = await this.userService.registerUser(user);
+            const data = await this.userService.regUser(user);
             res.send({success: true, data});
             console.log(data)
             res.status(200);

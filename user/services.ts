@@ -17,7 +17,7 @@ export class UserService{
         return await this.userDao.getUserByEmail(email);
     }
 
-    public async registerUser(user:UserObj){
+    public async regUser(user:UserObj){
         user.password = await bcrypt.hash(user.password ,10)
         return await this.userDao.registerUser(user);
     }
